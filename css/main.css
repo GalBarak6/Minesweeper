@@ -26,7 +26,8 @@ body {
     border-collapse: separate;
     /* border-spacing: 5px; */
     margin: auto;
-    padding-top: 220px;
+    /* padding-top: 200px; */
+    margin-top: 150px;
 }
 
 
@@ -47,7 +48,16 @@ footer {
 .modal {
     visibility: hidden;
 }
-/* 
-.flag {
-    visibility: hidden;
-} */
+
+.smiley {
+    cursor: pointer;
+}
+
+.level {
+    cursor: pointer;
+    background-color: rgb(138, 94, 94);
+}
+
+.level:hover {
+    color: rgb(125, 197, 176);
+}

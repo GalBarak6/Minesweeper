@@ -1,5 +1,11 @@
 'use strict'
 
+//***** TODO --> FIX THE PROBLEM WHERE EXPANDING CELLS TO DELETE THE FLAGS
+//***** TODO --> ADD THE FEATURE OF FIRST TURN IS NEVER A MIND + TRY A BIT OF THE BONUSES
+//***** TODO --> DESIGN THE WHOLE WEB!!
+
+
+
 const MINE = '💣'
 const FLAG = '🚩'
 const LIFE = '🧬'
@@ -25,7 +31,7 @@ var gGame = {
     shownCount: 0,
     markedCount: 0,
     SecsPassed: 0,
-    lives: 3
+    lives: 1
 }
 
 
@@ -35,6 +41,10 @@ function init() {
     setMinesNegCount(gBoard)
     renderBoard(gBoard)
     buildLives(gGame.lives)
+    clearInterval(gTimerInterval)
+    document.querySelector('.seconds').innerText = '00'
+    document.querySelector('.minutes').innerText = '00'
+    gTimerInterval = null
     gFirstClick = true
     gGame.isOn = true
     gStartTime = 0
@@ -105,7 +115,6 @@ function setMinesNegCount(board) {
 }
 
 
-
 // count the neighbours around a specific cell
 function countNeighbors(cellI, cellJ, board) {
     var neighborsCount = 0;
@@ -142,11 +151,11 @@ function cellClicked(elCell, i, j) {
             useLife()
         } else {
             exposeAllMines()
-            gIsWin = false
-            checkGameOver()
+            loseGame()
         }
 
     }
+    checkGameOver()
 }
 
 //marking the cells(right mouse click)
@@ -178,14 +187,31 @@ function cellMarked(elCell, i, j) {
     checkGameOver()
 }
 
-//check two situations - lose or win by the rules of the game
+//immediate lose when stepping a mine
+function loseGame() {
+    gElSmiley.innerText = LOSE
+    gIsWin = false
+    gGame.isOn = false
+    openModal()
+    return
+}
+
+//checking if won the game by the rules - marked mines and shown cells
 function checkGameOver() {
-    if (!gIsWin) {
-        gElSmiley.innerText = LOSE
+    var count = 0
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            var cell = gBoard[i][j]
+            if ((cell.isMarked && cell.isMine)) {
+                count++
+            }
+        }
+    }
+    console.log(count);
+    if (count === gLevel.MINES && gGame.shownCount === gLevel.SIZE ** 2 - gLevel.MINES) {
+        gIsWin = true
         gGame.isOn = false
         openModal()
-        stopTimer()
-        return
     }
 }
 
@@ -227,10 +253,6 @@ function timer() {
 
 }
 
-//stopping the time
-function stopTimer() {
-    clearInterval(gTimerInterval)
-}
 
 //exposing all the mines when stepping on one(and losing..bummer)
 function exposeAllMines() {
@@ -263,9 +285,11 @@ function closeModal() {
     elModal.style.visibility = 'hidden'
 }
 
-//restart button(for now)
-function restart() {
-
+//restart smiley
+function restart(elSmiley) {
+    elSmiley.innerText = NORMAL
+    clearInterval(gTimerInterval)
+    init()
 }
 
 //diffuclty changes by buttons
@@ -280,6 +304,7 @@ function difficultyLevels(elBtn) {
         gLevel.SIZE = 12
         gLevel.MINES = 30
     }
+    clearInterval(gTimerInterval)
     init()
 }
 
