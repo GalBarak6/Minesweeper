@@ -1,0 +1,53 @@
+body {
+    background-color: rgb(187, 161, 128);
+    color: azure;
+}
+
+.cells td {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    /* transition: 0.5s; */
+    border: solid 3px red;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cells td:hover {
+    transform: scale(1.07);
+}
+
+.cell span {
+    visibility: hidden;
+}
+
+
+.board {
+    border-collapse: separate;
+    /* border-spacing: 5px; */
+    margin: auto;
+    padding-top: 220px;
+}
+
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(155, 87, 87);
+    color: white;
+    text-align: center;
+}
+
+.shown {
+    background: red;
+}
+
+.modal {
+    visibility: hidden;
+}
+/* 
+.flag {
+    visibility: hidden;
+} */

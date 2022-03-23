@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body onload="init()">
+    <div class="timer">⌛ <span class="minutes">00</span>:<span class="seconds">00</span></div>
+    <div class="modal"></div>
+    <button class="level1" onclick="difficultyLevels(this)">Beginner</button>
+    <button class="level2" onclick="difficultyLevels(this)">Medium</button>
+    <button class="level3" onclick="difficultyLevels(this)">Expert</button>
+    <table class="board" border="0">
+        <tbody class="cells">
+
+        </tbody>
+    </table>
+    <div class="test">1</div>
+    <script src="js/main.js"></script>
+    <script src="js/utils.js"></script>
+
+    <footer>Copyrights to Gal Barak ©</footer>
+</body>
+
+</html>
