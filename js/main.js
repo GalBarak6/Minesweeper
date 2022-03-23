@@ -1,16 +1,18 @@
 'use strict'
 
-
 const MINE = '💣'
 const FLAG = '🚩'
 const LIFE = '🧬'
-
+const NORMAL = '🙂'
+const LOSE = '😭'
+const WIN = '🥳'
 
 var gBoard
 var gFirstClick = true
 var gTimerInterval
 var gStartTime = 0
 var gIsWin = null
+var gElSmiley = document.querySelector('.smiley')
 
 var gLevel = {
     SIZE: 4,
@@ -32,13 +34,14 @@ function init() {
     gBoard = buildBoard()
     setMinesNegCount(gBoard)
     renderBoard(gBoard)
-    buildLives()
+    buildLives(gGame.lives)
     gFirstClick = true
     gGame.isOn = true
     gStartTime = 0
     gGame.SecsPassed = 0
     gGame.shownCount = 0
     gGame.markedCount = 0
+    gElSmiley.innerText = NORMAL
 }
 
 
@@ -117,7 +120,7 @@ function countNeighbors(cellI, cellJ, board) {
     return neighborsCount;
 }
 
-
+//onclick cells
 function cellClicked(elCell, i, j) {
     if (!gGame.isOn) return
     var cell = gBoard[i][j]
@@ -135,15 +138,18 @@ function cellClicked(elCell, i, j) {
 
     if (elCell.classList.contains('empty')) expandShown(gBoard, elCell, i, j)
     if (cell.isMine) {
-        if(gGame.lives) useLife()
-        exposeAllMines()
-        gIsWin = false
-        checkGameOver()
-    }
+        if (gGame.lives) {
+            useLife()
+        } else {
+            exposeAllMines()
+            gIsWin = false
+            checkGameOver()
+        }
 
+    }
 }
 
-
+//marking the cells(right mouse click)
 function cellMarked(elCell, i, j) {
     document.addEventListener("contextmenu", function (e) {
         e.preventDefault();
@@ -155,9 +161,9 @@ function cellMarked(elCell, i, j) {
     if (cell.isMarked) {
         gGame.markedCount--
         elSpan.style.visibility = 'hidden'
-        if (elCell.classList.contains('.empty')) {
+        if (elCell.classList.contains('empty')) {
             elSpan.textContent = ''
-        } else if (elCell.classList.contains('.mine')) {
+        } else if (elCell.classList.contains('mine')) {
             elSpan.textContent = MINE
         } else {
             elSpan.textContent = cell.minesAroundCount
@@ -169,11 +175,13 @@ function cellMarked(elCell, i, j) {
     }
 
     cell.isMarked = !cell.isMarked
+    checkGameOver()
 }
 
-
+//check two situations - lose or win by the rules of the game
 function checkGameOver() {
     if (!gIsWin) {
+        gElSmiley.innerText = LOSE
         gGame.isOn = false
         openModal()
         stopTimer()
@@ -181,7 +189,7 @@ function checkGameOver() {
     }
 }
 
-
+//when stepping on empty - expanding neighbors
 function expandShown(board, elCell, cellI, cellJ) {
     for (var i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= board.length) continue;
@@ -190,19 +198,21 @@ function expandShown(board, elCell, cellI, cellJ) {
             if (j < 0 || j >= board[i].length) continue;
 
             renderCell(i, j, 'visible', 'shown')
+            if (gBoard[i][j].isShown) gGame.shownCount--
             gBoard[i][j].isShown = true
             gGame.shownCount++
         }
     }
 }
 
+//randing mines on the board
 function addRandMines(minesCount, board) {
     for (var i = 0; i < minesCount; i++) {
         board[getRandomInt(0, board.length)][getRandomInt(0, board.length)].isMine = true
     }
 }
 
-
+//set timer counting up
 function timer() {
     var elMinutes = document.querySelector('.minutes')
     var elSeconds = document.querySelector('.seconds')
@@ -217,21 +227,25 @@ function timer() {
 
 }
 
+//stopping the time
 function stopTimer() {
     clearInterval(gTimerInterval)
 }
 
-
+//exposing all the mines when stepping on one(and losing..bummer)
 function exposeAllMines() {
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[0].length; j++) {
             var cell = gBoard[i][j]
-            if (cell.isMine) renderCell(i, j, 'visible', 'shown')
+            if (cell.isMine) {
+                renderCell(i, j, 'visible', 'shown')
+                gGame.shownCount++
+            }
         }
     }
 }
 
-
+//open modal of you lose/win
 function openModal() {
     var elModal = document.querySelector('.modal')
     if (!gIsWin) {
@@ -243,17 +257,18 @@ function openModal() {
     }
 }
 
+//closing modal
 function closeModal() {
     var elModal = document.querySelector('.modal')
     elModal.style.visibility = 'hidden'
 }
 
-
+//restart button(for now)
 function restart() {
 
 }
 
-
+//diffuclty changes by buttons
 function difficultyLevels(elBtn) {
     if (elBtn.classList.contains('level1')) {
         gLevel.SIZE = 4
@@ -268,17 +283,18 @@ function difficultyLevels(elBtn) {
     init()
 }
 
-
-function buildLives() {
+//building the lives inline img dynamic(if we wanna add/decrease lives for the player)
+function buildLives(livesCount) {
     var elLives = document.querySelector('.lives')
     var lives = ''
-    for (var i = 0; i < gGame.lives; i++) {
+    for (var i = 0; i < livesCount; i++) {
         lives += LIFE
     }
     elLives.innerText = lives
 }
 
+//the actual function for using the life after stepping on a mine
 function useLife() {
-        gGame.lives--
-        
+    gGame.lives--
+    buildLives(gGame.lives)
 }
