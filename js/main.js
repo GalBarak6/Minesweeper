@@ -1,13 +1,17 @@
 'use strict'
 
+
 const MINE = '💣'
 const FLAG = '🚩'
+const LIFE = '🧬'
+
 
 var gBoard
 var gFirstClick = true
 var gTimerInterval
 var gStartTime = 0
 var gIsWin = null
+
 var gLevel = {
     SIZE: 4,
     MINES: 2
@@ -18,7 +22,8 @@ var gGame = {
     isOn: false,
     shownCount: 0,
     markedCount: 0,
-    SecsPassed: 0
+    SecsPassed: 0,
+    lives: 3
 }
 
 
@@ -27,9 +32,13 @@ function init() {
     gBoard = buildBoard()
     setMinesNegCount(gBoard)
     renderBoard(gBoard)
+    buildLives()
     gFirstClick = true
     gGame.isOn = true
     gStartTime = 0
+    gGame.SecsPassed = 0
+    gGame.shownCount = 0
+    gGame.markedCount = 0
 }
 
 
@@ -113,20 +122,25 @@ function cellClicked(elCell, i, j) {
     if (!gGame.isOn) return
     var cell = gBoard[i][j]
     if (cell.isShown) return
-    if(cell.isMarked) return
+    if (cell.isMarked) return
+
     if (gFirstClick) timer()
     gFirstClick = false
+
     var elSpan = elCell.querySelector('span')
     elSpan.style.visibility = 'visible'
     elCell.classList.add('shown')
     cell.isShown = true
+    gGame.shownCount++
 
     if (elCell.classList.contains('empty')) expandShown(gBoard, elCell, i, j)
     if (cell.isMine) {
+        if(gGame.lives) useLife()
         exposeAllMines()
         gIsWin = false
         checkGameOver()
     }
+
 }
 
 
@@ -137,9 +151,9 @@ function cellMarked(elCell, i, j) {
 
     var cell = gBoard[i][j]
     var elSpan = elCell.querySelector('span')
-    console.log(elSpan.textContent);
     if (cell.isShown) return
     if (cell.isMarked) {
+        gGame.markedCount--
         elSpan.style.visibility = 'hidden'
         if (elCell.classList.contains('.empty')) {
             elSpan.textContent = ''
@@ -149,9 +163,9 @@ function cellMarked(elCell, i, j) {
             elSpan.textContent = cell.minesAroundCount
         }
     } else {
-        console.log(elSpan.textContent);
         elSpan.textContent = FLAG
         elSpan.style.visibility = 'visible'
+        gGame.markedCount++
     }
 
     cell.isMarked = !cell.isMarked
@@ -177,7 +191,7 @@ function expandShown(board, elCell, cellI, cellJ) {
 
             renderCell(i, j, 'visible', 'shown')
             gBoard[i][j].isShown = true
-            
+            gGame.shownCount++
         }
     }
 }
@@ -198,6 +212,7 @@ function timer() {
         var currTime = new Date(timeDiff)
         elSeconds.innerText = pad(currTime.getSeconds())
         elMinutes.innerText = pad(currTime.getMinutes())
+        gGame.SecsPassed++
     }, 1000);
 
 }
@@ -254,3 +269,16 @@ function difficultyLevels(elBtn) {
 }
 
 
+function buildLives() {
+    var elLives = document.querySelector('.lives')
+    var lives = ''
+    for (var i = 0; i < gGame.lives; i++) {
+        lives += LIFE
+    }
+    elLives.innerText = lives
+}
+
+function useLife() {
+        gGame.lives--
+        
+}
