@@ -18,6 +18,7 @@ var gTimerInterval
 var gStartTime = 0
 var gIsWin = null
 var gElSmiley = document.querySelector('.smiley')
+var gIsLifeActive = false
 
 var gLevel = {
     SIZE: 4,
@@ -38,7 +39,6 @@ var gGame = {
 function init() {
     closeModal()
     gBoard = buildBoard()
-    // addRandMines(gLevel.MINES, gBoard)
     setMinesNegCount(gBoard)
     renderBoard(gBoard)
     gGame.lives = 3
@@ -46,6 +46,8 @@ function init() {
     clearInterval(gTimerInterval)
     document.querySelector('.seconds').innerText = '00'
     document.querySelector('.minutes').innerText = '00'
+    document.querySelector('.activate').innerText = 'Activate Life!'
+    gIsLifeActive = false
     gTimerInterval = null
     gFirstClick = true
     gGame.isOn = true
@@ -188,7 +190,7 @@ function cellClicked(elCell, i, j) {
 
     if (elCell.classList.contains('empty')) expandShown(gBoard, elCell, i, j)
     if (cell.isMine) {
-        if (gGame.lives) {
+        if (gGame.lives && gIsLifeActive) {
             useLife()
         } else {
             exposeAllMines()
@@ -205,6 +207,7 @@ function cellMarked(elCell, i, j) {
         e.preventDefault();
     }, false);
 
+    if (!gGame.isOn) return
     var cell = gBoard[i][j]
     var elSpan = elCell.querySelector('span')
     if (cell.isShown) return
@@ -212,15 +215,18 @@ function cellMarked(elCell, i, j) {
         gGame.markedCount--
         elSpan.style.visibility = 'visible'
         if (elCell.classList.contains('empty')) {
-            elSpan.textContent = ''
+            elSpan.innerText = ''
+            elSpan.style.visibility = 'hidden'
         } else if (elCell.classList.contains('mine')) {
-            elSpan.textContent = MINE
+            elSpan.innerText = MINE
+            elSpan.style.visibility = 'hidden'
         } else {
-            elSpan.textContent = cell.minesAroundCount
+            elSpan.innerText = cell.minesAroundCount
+            elSpan.style.visibility = 'hidden'
         }
     } else {
-        elSpan.textContent = FLAG
-        // elSpan.style.visibility = 'visible'
+        elSpan.innerText = FLAG
+        elSpan.style.visibility = 'visible'
         gGame.markedCount++
     }
 
@@ -228,7 +234,7 @@ function cellMarked(elCell, i, j) {
     checkGameOver()
 }
 
-//immediate lose when stepping a mine
+//immediate lose when stepping a mine(after checking lives)
 function loseGame() {
     gElSmiley.innerText = LOSE
     gIsWin = false
@@ -248,12 +254,14 @@ function checkGameOver() {
             }
         }
     }
-    if (count === gLevel.MINES && gGame.shownCount === gLevel.SIZE ** 2 - gLevel.MINES) {
+    if ((count === gLevel.MINES && gGame.shownCount === gLevel.SIZE ** 2 - gLevel.MINES)) {
         gIsWin = true
         gGame.isOn = false
+        gElSmiley.innerText = WIN
         openModal()
     }
 }
+
 
 //when stepping on empty - expanding neighbors
 function expandShown(board, elCell, cellI, cellJ) {
@@ -265,14 +273,18 @@ function expandShown(board, elCell, cellI, cellJ) {
 
 
             renderCell(i, j, 'visible', 'shown')
-            // var elCurr = getInnerText(i, j)
-            // console.log(elCurr);
-            // console.log(gBoard[i][j].isMarked);
             if (gBoard[i][j].isMarked) {
-                //     gBoard[i][j].isMarked = false
-                //     renderText(i, j, elCurr)
-                //     console.log(elCurr);
-                // renderCell(i, j, 'hidden', 'shown')
+
+                // if (elCell.classList.contains('empty')) {
+                //     elSpan.innerText = ''
+                //     elSpan.style.visibility = 'hidden'
+                // } else if (elCell.classList.contains('mine')) {
+                //     elSpan.innerText = MINE
+                //     elSpan.style.visibility = 'hidden'
+                // } else {
+                //     elSpan.innerText = cell.minesAroundCount
+                //     elSpan.style.visibility = 'hidden'
+                // }
             }
             if (gBoard[i][j].isShown) gGame.shownCount--
             gBoard[i][j].isShown = true
@@ -377,5 +389,17 @@ function buildLives(livesCount) {
 function useLife() {
     gGame.lives--
     buildLives(gGame.lives)
+}
+
+
+function activateLife(elBtn) {
+    if (!gIsLifeActive) {
+        gIsLifeActive = true
+        elBtn.innerText = 'Deactivate!'
+    } else {
+        gIsLifeActive = false
+        elBtn.innerText = 'Activate Life!'
+    }
+
 }
 

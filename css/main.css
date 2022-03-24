@@ -34,9 +34,9 @@ body {
     transform: scale(1.07);
 }
 
-/* .cell span {
+.cell span {
     visibility: hidden;
-} */
+} 
 
 
 .board {
@@ -93,8 +93,8 @@ footer {
 
 .modal {
     visibility: visible;
-    position: relative;
-    top: 70px;
+    position: absolute;
+    top: 115px;
     left: 50px;
     font-size: 30px;
     background: -webkit-linear-gradient(rgb(11, 36, 82), rgb(39, 65, 46));
@@ -106,18 +106,18 @@ footer {
 .smiley {
     cursor: pointer;
     font-size: 30px;
-    position: relative;
+    position: absolute;
     z-index: 1;
-    left: 610px;
-    bottom: 25px;
+    left: 620px;
+    /* bottom: 25px; */
     /* margin-left: 620px;
     margin-top: 30px; */
 }
 
 h2 {
-    position:relative;
-    left:20px;
-    top:100px;
+    position:absolute;
+    left:25px;
+    top:150px;
     background: -webkit-linear-gradient(rgb(133, 155, 195), rgb(241, 237, 234));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -129,7 +129,7 @@ h2 {
     background-color: rgb(138, 94, 94);
     position:relative;
     left:10px;
-    top:100px; 
+    top:200px; 
 }
 
 .level:hover {
@@ -137,9 +137,36 @@ h2 {
 }
 
 .lives {
-    position:relative;
+    position:absolute;
     left:60px;
     top:40px;
     font-size: 25px;
     display: visible;
+}
+
+.activate {
+    position: absolute;
+    top: 80px;
+    left: 55px;
+    background: none;
+    color: rgb(17, 26, 26);
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.activate:hover {
+    background-color: rgb(90, 81, 68);
+}
+
+
+.title {
+    position: absolute;
+    left: 1000px;
+    top: 200px;
+    -webkit-transform:rotate(75deg);
+  -moz-transform: rotate(75deg);
+  -ms-transform: rotate(75deg);
+  -o-transform: rotate(75deg);
+  transform: rotate(75deg);
 }
