@@ -37,6 +37,7 @@ var gGame = {
 // Onload
 function init() {
     gBoard = buildBoard()
+    // addRandMines(gLevel.MINES, gBoard)
     setMinesNegCount(gBoard)
     renderBoard(gBoard)
     gGame.lives = 1
@@ -134,15 +135,15 @@ function countNeighbors(cellI, cellJ, board) {
 function cellClicked(elCell, i, j) {
     if (!gGame.isOn) return
     var cell = gBoard[i][j]
-    console.log(cell);
     if (gFirstClick) {
         gFirstClick = false
-        timer() 
-        // if (cell.isMine) {
-        //     // neverAMine(i, j, elCell)
-        //     return
-        // }
-
+        while (cell.isMine) {
+            gBoard = buildBoard()
+            setMinesNegCount(gBoard)
+            renderBoard(gBoard)
+            cell = gBoard[i][j]
+        }
+        renderCell(i, j, 'visible', 'shown')
     }
     if (cell.isShown) return
     if (cell.isMarked) return
@@ -163,7 +164,6 @@ function cellClicked(elCell, i, j) {
         }
 
     }
-
     checkGameOver()
 }
 
@@ -240,11 +240,12 @@ function expandShown(board, elCell, cellI, cellJ) {
 }
 
 //randing mines on the board
-function addRandMines(minesCount, board) {
+function addRandMines(minesCount, board, i, j) {
     for (var i = 0; i < minesCount; i++) {
         board[getRandomInt(0, board.length)][getRandomInt(0, board.length)].isMine = true
     }
 }
+
 
 //set timer counting up
 function timer() {
