@@ -14,15 +14,17 @@ function renderCell(i, j, value1, value2) {
     elCell.classList.add(value2)
 }
 
+function renderText(i, j, value) {
+    var elCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
+    var elSpan = elCell.querySelector('span')
+    elSpan.innerText = value
+}
+
 
 function getInnerText(i, j) {
     var elCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
-    console.log(elCell);
     var elSpan = elCell.querySelector('span')
     var elText = elSpan.innerText
-    console.log(elText);
-    elSpan.innerText = MINE
-    console.log(elSpan.innerText);
     return elText
 }
 

@@ -14,14 +14,19 @@
     <div class="modal"></div>
     <div class="lives"></div>
     <div class="smiley" onclick="restart(this)"></div>
-    <button class="level level1" onclick="difficultyLevels(this)">Beginner</button>
-    <button class="level level2" onclick="difficultyLevels(this)">Medium</button>
-    <button class="level level3" onclick="difficultyLevels(this)">Expert</button>
-    <table class="board" border="0">
-        <tbody class="cells">
-
-        </tbody>
-    </table>
+    <div>
+        <h2>Choose difficulty:</h2>
+        <button class="level level1" onclick="difficultyLevels(this)">Beginner</button>
+        <button class="level level2" onclick="difficultyLevels(this)">Medium</button>
+        <button class="level level3" onclick="difficultyLevels(this)">Expert</button>
+    </div>
+    <div class="container">
+        <table class="board" border="0">
+            <tbody class="cells">
+    
+            </tbody>
+        </table>
+    </div>
     <script src="js/main.js"></script>
     <script src="js/utils.js"></script>
 

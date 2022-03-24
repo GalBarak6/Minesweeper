@@ -30,17 +30,18 @@ var gGame = {
     shownCount: 0,
     markedCount: 0,
     SecsPassed: 0,
-    lives: 1
+    lives: 3
 }
 
 
 // Onload
 function init() {
+    closeModal()
     gBoard = buildBoard()
     // addRandMines(gLevel.MINES, gBoard)
     setMinesNegCount(gBoard)
     renderBoard(gBoard)
-    gGame.lives = 1
+    gGame.lives = 3
     buildLives(gGame.lives)
     clearInterval(gTimerInterval)
     document.querySelector('.seconds').innerText = '00'
@@ -94,7 +95,38 @@ function renderBoard(board) {
                 className += ' empty'
             } else {
                 cell = cell.minesAroundCount
-                className += ' num'
+                switch (cell) {
+                    case 1:
+                        className += ' num num1'
+                        break;
+                    case 2:
+                        className += ' num num2'
+                        break;
+                    case 3:
+                        className += ' num num3'
+                        break;
+                    case 4:
+                        className += ' num num4'
+                        break;
+                    case 5:
+                        className += ' num num5'
+                        break;
+                    case 6:
+                        className += ' num num6'
+                        break;
+                    case 7:
+                        className += ' num num7'
+                        break;
+                    case 8:
+                        className += ' num num8'
+                        break;
+                }
+                // }
+                // if(cell === 1) className += ' num num1'
+                // if(cell === 2) className += ' num num2'
+                // if(cell === 3) className += ' num num3'
+                // if(cell === 4) className += ' num num4'
+                // className += ' num'
             }
             strHTML += `<td class=" ${className} " data-i="${i}" data-j="${j}" onclick="cellClicked(this, ${i}, ${j})" oncontextmenu="cellMarked(this, ${i}, ${j})"> <span>${cell}</span></td>`
         }
@@ -178,7 +210,7 @@ function cellMarked(elCell, i, j) {
     if (cell.isShown) return
     if (cell.isMarked) {
         gGame.markedCount--
-        elSpan.style.visibility = 'hidden'
+        elSpan.style.visibility = 'visible'
         if (elCell.classList.contains('empty')) {
             elSpan.textContent = ''
         } else if (elCell.classList.contains('mine')) {
@@ -188,7 +220,7 @@ function cellMarked(elCell, i, j) {
         }
     } else {
         elSpan.textContent = FLAG
-        elSpan.style.visibility = 'visible'
+        // elSpan.style.visibility = 'visible'
         gGame.markedCount++
     }
 
@@ -205,7 +237,7 @@ function loseGame() {
     return
 }
 
-//checking if won the game by the rules - marked mines and shown cells
+//checking if won the game by the rules - marked mines and shown cells(unless shown mines are saved by lives)
 function checkGameOver() {
     var count = 0
     for (var i = 0; i < gBoard.length; i++) {
@@ -231,7 +263,17 @@ function expandShown(board, elCell, cellI, cellJ) {
             if (i === cellI && j === cellJ) continue;
             if (j < 0 || j >= board[i].length) continue;
 
+
             renderCell(i, j, 'visible', 'shown')
+            // var elCurr = getInnerText(i, j)
+            // console.log(elCurr);
+            // console.log(gBoard[i][j].isMarked);
+            if (gBoard[i][j].isMarked) {
+                //     gBoard[i][j].isMarked = false
+                //     renderText(i, j, elCurr)
+                //     console.log(elCurr);
+                // renderCell(i, j, 'hidden', 'shown')
+            }
             if (gBoard[i][j].isShown) gGame.shownCount--
             gBoard[i][j].isShown = true
             gGame.shownCount++
@@ -303,15 +345,19 @@ function restart(elSmiley) {
 
 //diffuclty changes by buttons
 function difficultyLevels(elBtn) {
+    var elBoard = document.querySelector('.board')
     if (elBtn.classList.contains('level1')) {
         gLevel.SIZE = 4
         gLevel.MINES = 2
+        elBoard.style.padding = 100 + 'px'
     } else if (elBtn.classList.contains('level2')) {
         gLevel.SIZE = 8
         gLevel.MINES = 12
+        elBoard.style.padding = 30 + 'px'
     } else {
         gLevel.SIZE = 12
         gLevel.MINES = 30
+        elBoard.style.padding = 10 + 'px'
     }
     clearInterval(gTimerInterval)
     init()
@@ -333,22 +379,3 @@ function useLife() {
     buildLives(gGame.lives)
 }
 
-
-function neverAMine(cellI, cellJ, elCell) {
-    for (var i = cellI - 1; i <= cellI + 1; i++) {
-        if (i < 0 || i >= gBoard.length) continue
-        for (var j = cellJ - 1; j <= cellJ + 1; j++) {
-            if (i === cellI && j === cellJ) continue
-            if (j < 0 || j >= gBoard[0].length) continue
-
-            if (!gBoard[i][j].isMine) {
-                gBoard[i][j].isMine = true
-                gBoard[cellI][cellJ].isMine = false
-                elCell.innerText = getInnerText(i, j)
-                console.log(elCell);
-                console.log(elCell.innerText);
-                return
-            }
-        }
-    }
-}

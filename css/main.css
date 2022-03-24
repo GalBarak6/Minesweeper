@@ -1,35 +1,81 @@
 body {
-    background-color: rgb(187, 161, 128);
+    /* background-color: rgb(187, 161, 128); */
+    background-color: rgb(99, 111, 117);
     color: azure;
 }
+
+.container {
+    /* background: linear-gradient(to top, #761818, #761818, #761818, #761818, #761818, #B54041, #F3686A) */
+    background: linear-gradient(to top, rgba(157, 177, 182, 0.329), rgb(83, 165, 224));
+    margin: auto;
+    width: 60%;
+    position: fixed;
+    left:250px;
+    top:80px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
 
 .cells td {
     width: 30px;
     height: 30px;
     text-align: center;
     /* transition: 0.5s; */
-    border: solid 3px red;
+    border: solid 3px lightsteelblue;
     cursor: pointer;
     transition: 0.2s;
+    border-radius: 5px;
 }
 
 .cells td:hover {
     transform: scale(1.07);
 }
 
-.cell span {
+/* .cell span {
     visibility: hidden;
-}
+} */
 
 
 .board {
     border-collapse: separate;
-    /* border-spacing: 5px; */
+    table-layout: fixed;
     margin: auto;
-    /* padding-top: 200px; */
-    margin-top: 150px;
+    height: 100px;
+    width: 100px;
+    padding : 100px
 }
 
+.num {
+    font-weight: bold;
+}
+
+.num1 {
+    color: blue;
+}
+.num2 {
+    color: green;
+}
+.num3 {
+    color: red;
+}
+.num4 {
+    color: darkblue;
+}
+.num5 {
+    color: rgb(1, 34, 21);
+}
+.num6 {
+    color: rgb(90, 17, 78);
+}
+.num7 {
+    color: rgb(80, 102, 18);
+}
+.num8 {
+    color: rgb(124, 17, 62);
+}
 
 footer {
     position: fixed;
@@ -42,22 +88,58 @@ footer {
 }
 
 .shown {
-    background: red;
+    background: rgb(209, 198, 190);
 }
 
 .modal {
-    visibility: hidden;
+    visibility: visible;
+    position: relative;
+    top: 70px;
+    left: 50px;
+    font-size: 30px;
+    background: -webkit-linear-gradient(rgb(11, 36, 82), rgb(39, 65, 46));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .smiley {
     cursor: pointer;
+    font-size: 30px;
+    position: relative;
+    z-index: 1;
+    left: 610px;
+    bottom: 25px;
+    /* margin-left: 620px;
+    margin-top: 30px; */
 }
+
+h2 {
+    position:relative;
+    left:20px;
+    top:100px;
+    background: -webkit-linear-gradient(rgb(133, 155, 195), rgb(241, 237, 234));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 
 .level {
     cursor: pointer;
     background-color: rgb(138, 94, 94);
+    position:relative;
+    left:10px;
+    top:100px; 
 }
 
 .level:hover {
     color: rgb(125, 197, 176);
+}
+
+.lives {
+    position:relative;
+    left:60px;
+    top:40px;
+    font-size: 25px;
+    display: visible;
 }
