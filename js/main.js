@@ -5,7 +5,6 @@
 //***** TODO --> DESIGN THE WHOLE WEB!!
 
 
-
 const MINE = '💣'
 const FLAG = '🚩'
 const LIFE = '🧬'
@@ -40,6 +39,7 @@ function init() {
     gBoard = buildBoard()
     setMinesNegCount(gBoard)
     renderBoard(gBoard)
+    gGame.lives = 1
     buildLives(gGame.lives)
     clearInterval(gTimerInterval)
     document.querySelector('.seconds').innerText = '00'
@@ -70,9 +70,9 @@ function buildBoard() {
             board[i][j] = cell
         }
     }
-    // addRandMines(gLevel.MINES, board)
-    board[1][1].isMine = true
-    board[2][3].isMine = true
+    addRandMines(gLevel.MINES, board)
+    // board[1][1].isMine = true
+    // board[2][3].isMine = true
     return board
 }
 
@@ -123,6 +123,7 @@ function countNeighbors(cellI, cellJ, board) {
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
             if (i === cellI && j === cellJ) continue;
             if (j < 0 || j >= board[i].length) continue;
+
             if (board[i][j].isMine) neighborsCount++;
         }
     }
@@ -133,11 +134,18 @@ function countNeighbors(cellI, cellJ, board) {
 function cellClicked(elCell, i, j) {
     if (!gGame.isOn) return
     var cell = gBoard[i][j]
+    console.log(cell);
+    if (gFirstClick) {
+        gFirstClick = false
+        timer() 
+        // if (cell.isMine) {
+        //     // neverAMine(i, j, elCell)
+        //     return
+        // }
+
+    }
     if (cell.isShown) return
     if (cell.isMarked) return
-
-    if (gFirstClick) timer()
-    gFirstClick = false
 
     var elSpan = elCell.querySelector('span')
     elSpan.style.visibility = 'visible'
@@ -155,6 +163,7 @@ function cellClicked(elCell, i, j) {
         }
 
     }
+
     checkGameOver()
 }
 
@@ -207,7 +216,6 @@ function checkGameOver() {
             }
         }
     }
-    console.log(count);
     if (count === gLevel.MINES && gGame.shownCount === gLevel.SIZE ** 2 - gLevel.MINES) {
         gIsWin = true
         gGame.isOn = false
@@ -322,4 +330,24 @@ function buildLives(livesCount) {
 function useLife() {
     gGame.lives--
     buildLives(gGame.lives)
+}
+
+
+function neverAMine(cellI, cellJ, elCell) {
+    for (var i = cellI - 1; i <= cellI + 1; i++) {
+        if (i < 0 || i >= gBoard.length) continue
+        for (var j = cellJ - 1; j <= cellJ + 1; j++) {
+            if (i === cellI && j === cellJ) continue
+            if (j < 0 || j >= gBoard[0].length) continue
+
+            if (!gBoard[i][j].isMine) {
+                gBoard[i][j].isMine = true
+                gBoard[cellI][cellJ].isMine = false
+                elCell.innerText = getInnerText(i, j)
+                console.log(elCell);
+                console.log(elCell.innerText);
+                return
+            }
+        }
+    }
 }

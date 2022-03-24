@@ -17,9 +17,9 @@ body {
     transform: scale(1.07);
 }
 
-.cell span {
+/* .cell span {
     visibility: hidden;
-}
+} */
 
 
 .board {
