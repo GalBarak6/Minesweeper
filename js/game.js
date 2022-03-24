@@ -30,7 +30,8 @@ var gGame = {
     shownCount: 0,
     markedCount: 0,
     SecsPassed: 0,
-    lives: 3
+    lives: 3,
+    minesSaved: 0
 }
 
 
@@ -46,6 +47,9 @@ function init() {
     document.querySelector('.seconds').innerText = '00'
     document.querySelector('.minutes').innerText = '00'
     document.querySelector('.activate').innerText = 'Activate Life!'
+    gSafeClickCount = 3
+    var elSpan = gElH3.querySelector('.clickCount')
+    elSpan.innerText = gSafeClickCount
     gIsLifeActive = false
     gTimerInterval = null
     gFirstClick = true
@@ -164,6 +168,15 @@ function checkGameOver() {
         gElSmiley.innerText = WIN
         openModal()
     }
+
+
+    // if(gGame.minesSaved && gGame.shownCount === gLevel.SIZE ** 2 -1) {
+    //     gIsWin = true
+    //     gGame.isOn = false
+    //     gElSmiley.innerText = WIN
+    //     openModal()
+    // }
+
 }
 
 

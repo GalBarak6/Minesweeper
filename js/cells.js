@@ -3,6 +3,7 @@
 var gFirstClick = true
 var gSafeClickTimeId
 var gSafeClickCount = 3
+var gElH3 = document.querySelector('.safe-click h3')
 
 //onclick cells
 function cellClicked(elCell, i, j) {
@@ -37,6 +38,7 @@ function cellClicked(elCell, i, j) {
         }
 
     }
+
     checkGameOver()
 }
 
@@ -106,14 +108,13 @@ function expandShown(board, elCell, cellI, cellJ) {
 //activated when clicked on safeclick btn --> 3 times reveals a safe cell
 function safeClick() {
     if (!gSafeClickCount) return
-    var elH3 = document.querySelector('.safe-click h3')
-    var elSpan = elH3.querySelector('.clickCount')
+    var elSpan = gElH3.querySelector('.clickCount')
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard.length; j++) {
             var cell = gBoard[i][j]
             if (!cell.isMine && !cell.isShown) {
                 renderClass(i, j, 'blink')
-                gSafeClickTimeId = setInterval(stopSafeClick, 3000, i, j)
+                gSafeClickTimeId = setInterval(stopSafeClick, 2000, i, j)
                 elSpan.innerText = +elSpan.innerText - 1
                 gSafeClickCount--
                 return

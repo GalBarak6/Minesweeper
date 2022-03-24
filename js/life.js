@@ -20,6 +20,7 @@ function buildLives(livesCount) {
 function useLife() {
     gGame.lives--
     buildLives(gGame.lives)
+    gGame.minesSaved++
 }
 
 
