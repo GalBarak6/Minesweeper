@@ -1,7 +1,7 @@
 'use strict'
 
 var gIsLifeActive = false
-
+const LIFE = '🧬'
 
 
 //building the lives inline img dynamic(if we wanna add/decrease lives for the player)

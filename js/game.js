@@ -3,7 +3,6 @@
 
 const MINE = '💣'
 const FLAG = '🚩'
-const LIFE = '🧬'
 const NORMAL = '🙂'
 const LOSE = '😭'
 const WIN = '🥳'
@@ -188,6 +187,7 @@ function timer() {
 
 //open modal of you lose/win
 function openModal() {
+    clearInterval(gTimerInterval)
     var elModal = document.querySelector('.modal')
     if (!gIsWin) {
         elModal.innerText = 'You Lost!'
@@ -230,4 +230,6 @@ function difficultyLevels(elBtn) {
     clearInterval(gTimerInterval)
     init()
 }
+
+
 
