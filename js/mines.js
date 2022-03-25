@@ -1,5 +1,6 @@
 'use strict'
 
+const MINE = '💣'
 
 
 //randing mines on the board

@@ -5,6 +5,7 @@ var gSafeClickTimeId
 var gSafeClickCount = 3
 var gElH3 = document.querySelector('.safe-click h3')
 
+
 //onclick cells
 function cellClicked(elCell, i, j) {
     if (!gGame.isOn) return
@@ -54,7 +55,6 @@ function cellClicked(elCell, i, j) {
 
     checkGameOver()
 }
-
 
 
 

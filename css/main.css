@@ -91,6 +91,11 @@ footer {
     background: rgb(209, 198, 190);
 }
 
+.mine.shown {
+    background-color: rgb(83, 84, 92);
+}
+
+
 .modal {
     visibility: visible;
     position: absolute;

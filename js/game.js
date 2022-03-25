@@ -1,7 +1,6 @@
 'use strict'
 
 
-const MINE = '💣'
 const FLAG = '🚩'
 const NORMAL = '🙂'
 const LOSE = '😭'
@@ -12,6 +11,7 @@ var gTimerInterval
 var gStartTime = 0
 var gIsWin = null
 var gElSmiley = document.querySelector('.smiley')
+
 
 //details about board size and mines count
 var gLevel = {
@@ -50,6 +50,7 @@ function init() {
     elSpan.innerText = gSafeClickCount
     gIsLifeActive = false
     gTimerInterval = null
+    gSafeClickTimeId = null
     gFirstClick = true
     gGame.isOn = true
     gStartTime = 0
@@ -232,4 +233,9 @@ function difficultyLevels(elBtn) {
 }
 
 
+// function manualMines(elCell, i, j) {
+//     gBoard[i][j].isMine = true
+//     elCell.innerText = MINE
+//     if (ManualMinesCount > gLevel.MINES) gIsManual = false
+// }
 
