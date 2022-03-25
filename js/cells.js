@@ -18,9 +18,22 @@ function cellClicked(elCell, i, j) {
             cell = gBoard[i][j]
         }
         renderCell(i, j, 'visible', 'shown')
+        timer()
     }
     if (cell.isShown) return
     if (cell.isMarked) return
+    //     for (var i = 0; i < gBulbs.length; i++) {
+    //     if (gBulbs[i].isLightBulb) {
+    //         revealCells(gBoard, i, j)
+    //         gRevealTimeId = setTimeout(removeUsedBulb, 1000, i, j)
+    //         return
+    //     }
+    // }
+    if (isLightBulbs) {
+        revealCells(gBoard, i, j)
+        gRevealTimeId = setTimeout(removeUsedBulb, 1000, i, j)
+        return
+    }
 
     var elSpan = elCell.querySelector('span')
     elSpan.style.visibility = 'visible'
@@ -107,6 +120,7 @@ function expandShown(board, elCell, cellI, cellJ) {
 
 //activated when clicked on safeclick btn --> 3 times reveals a safe cell
 function safeClick() {
+    if (!gGame.isOn) return
     if (!gSafeClickCount) return
     var elSpan = gElH3.querySelector('.clickCount')
     for (var i = 0; i < gBoard.length; i++) {
@@ -128,4 +142,5 @@ function safeClick() {
 function stopSafeClick(i, j) {
     renderRemoveClass(i, j, 'blink')
     clearTimeout(gSafeClickTimeId)
+    gSafeClickTimeId = null
 }

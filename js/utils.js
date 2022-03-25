@@ -17,6 +17,15 @@ function renderCell(i, j, value1, value2) {
 }
 
 
+//render cell visabillty + removing shown class to unselect a cell
+function renderRemoveDis(i, j, value1, value2) {
+    var elCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
+    var elSpan = elCell.querySelector('span')
+    elSpan.style.visibility = value1
+    elCell.classList.remove(value2)
+}
+
+
 //render cell inner text to change to content
 function renderText(i, j, value) {
     var elCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)

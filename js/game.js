@@ -1,9 +1,5 @@
 'use strict'
 
-//***** TODO --> FIX THE PROBLEM WHERE EXPANDING CELLS TO DELETE THE FLAGS
-//***** TODO --> ADD THE FEATURE OF FIRST TURN IS NEVER A MIND + TRY A BIT OF THE BONUSES
-//***** TODO --> DESIGN THE WHOLE WEB!!
-
 
 const MINE = '💣'
 const FLAG = '🚩'
@@ -41,6 +37,9 @@ function init() {
     gBoard = buildBoard()
     setMinesNegCount(gBoard)
     renderBoard(gBoard)
+    buildBulbs(gHintsNum)
+    renderBulbs(gHintsNum)
+    restartBulbStatus()
     gGame.lives = 3
     buildLives(gGame.lives)
     clearInterval(gTimerInterval)
@@ -162,21 +161,12 @@ function checkGameOver() {
             }
         }
     }
-    if ((count === gLevel.MINES && gGame.shownCount === gLevel.SIZE ** 2 - gLevel.MINES)) {
+    if ((count === gLevel.MINES && gGame.shownCount === gLevel.SIZE ** 2 - gLevel.MINES) || gGame.shownCount === gLevel.SIZE ** 2) {
         gIsWin = true
         gGame.isOn = false
         gElSmiley.innerText = WIN
         openModal()
     }
-
-
-    // if(gGame.minesSaved && gGame.shownCount === gLevel.SIZE ** 2 -1) {
-    //     gIsWin = true
-    //     gGame.isOn = false
-    //     gElSmiley.innerText = WIN
-    //     openModal()
-    // }
-
 }
 
 
@@ -240,5 +230,4 @@ function difficultyLevels(elBtn) {
     clearInterval(gTimerInterval)
     init()
 }
-
 

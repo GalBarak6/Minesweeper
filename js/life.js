@@ -27,6 +27,7 @@ function useLife() {
 
 //When clicked activate life - checking if already activated and changing text
 function activateLife(elBtn) {
+    if (!gGame.isOn) return
     if (!gIsLifeActive) {
         gIsLifeActive = true
         elBtn.innerText = 'Deactivate!'
