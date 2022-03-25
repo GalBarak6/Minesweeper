@@ -30,6 +30,7 @@ function renderBulbs(hintsNum) {
 }
 
 
+//changing the img to light bulb when click a regular bulb
 function clickedBulb(elImg, i) {
     if (!gGame.isOn) return
     if (isLightBulbs) return
@@ -39,7 +40,7 @@ function clickedBulb(elImg, i) {
 }
 
 
-
+//revealing the clicked cell + his neighbours *if* a bulb has been clicked
 function revealCells(board, cellI, cellJ) {
     for (var i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= board.length) continue;
@@ -53,7 +54,7 @@ function revealCells(board, cellI, cellJ) {
 }
 
 
-
+//removing the used bulb - changing back to normal bulb and hiding revealed cells -->after 1s
 function removeUsedBulb(cellI, cellJ) {
     var elBulb = document.querySelector('.bulb' + gBulbClass)
     elBulb.style.opacity = 0
@@ -72,6 +73,7 @@ function removeUsedBulb(cellI, cellJ) {
 }
 
 
+//restart the bulbs status to normal on init
 function restartBulbStatus() {
     var elBulb = document.querySelectorAll('.bulb')
     for (var i = 0; i < elBulb.length; i++) {

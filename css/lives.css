@@ -1,0 +1,23 @@
+.lives {
+    position:absolute;
+    left:60px;
+    top:40px;
+    font-size: 25px;
+    display: visible;
+}
+
+.activate {
+    position: absolute;
+    top: 80px;
+    left: 55px;
+    background: none;
+    color: rgb(17, 26, 26);
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.activate:hover {
+    background-color: rgb(90, 81, 68);
+}

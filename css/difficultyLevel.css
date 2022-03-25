@@ -1,0 +1,22 @@
+h2 {
+    position:absolute;
+    left:25px;
+    top:150px;
+    background: -webkit-linear-gradient(rgb(133, 155, 195), rgb(241, 237, 234));
+    -webkit-background-clip: text;
+    background-clip: text ;
+    -webkit-text-fill-color: transparent;
+}
+
+
+.level {
+    cursor: pointer;
+    background-color: rgb(138, 94, 94);
+    position:relative;
+    left:10px;
+    top:200px; 
+}
+
+.level:hover {
+    color: rgb(125, 197, 176);
+}
