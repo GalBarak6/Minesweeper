@@ -1,6 +1,6 @@
 # Minesweeper
 
-![Alt text](/img/path/to/minesweeper img.png?raw=true "Optional Title")
+![Alt text](/img/path/to/main-img.png?raw=true "Optional Title")
 
 ![alt text](https://github.com/[GalBarak6]/[Minesweeper]/blob/[Main]/main-img.png?raw=true)
 
